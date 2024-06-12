@@ -7,10 +7,8 @@ import javax.swing.JOptionPane;
  *
  * @author jacob
  */
-public class Menu1 {
-        private static final int MAX_JUGADORES = 4;
-    private static String[] jugadores = new String[MAX_JUGADORES];
-    private static int top = -1;
+public class Menu {
+    private static PilaJugadores pilaJugadores = new PilaJugadores();
 
     public static void main(String[] args) {
         int option = 0;
@@ -36,7 +34,7 @@ public class Menu1 {
                     imprimirJugadores();
                     break;
                 case 2:
-                    eliminarJugador();
+                    subMenuEliminar();
                     break;
                 case 3:
                     mostrarAyuda();
@@ -52,53 +50,62 @@ public class Menu1 {
     }
 
     private static void agregarJugador() {
-        if (top < MAX_JUGADORES - 1) {
-            String nombre = JOptionPane.showInputDialog("Ingrese el nombre del jugador:");
-            if (nombre != null && !nombre.trim().isEmpty()) {
-                jugadores[++top] = nombre;
+        String nombre = JOptionPane.showInputDialog("Ingrese el nombre del jugador:");
+        if (nombre != null && !nombre.trim().isEmpty()) {
+            if (pilaJugadores.agregarJugador(nombre)) {
                 JOptionPane.showMessageDialog(null, "Jugador " + nombre + " agregado.");
             } else {
-                JOptionPane.showMessageDialog(null, "Nombre no válido.");
+                JOptionPane.showMessageDialog(null, "No se pueden agregar más de 4 jugadores.");
             }
         } else {
-            JOptionPane.showMessageDialog(null, "No se pueden agregar más de " + MAX_JUGADORES + " jugadores.");
+            JOptionPane.showMessageDialog(null, "Nombre no válido.");
         }
     }
 
     private static void imprimirJugadores() {
-        if (top == -1) {
-            JOptionPane.showMessageDialog(null, "No hay jugadores en la pila.");
-        } else {
-            StringBuilder sb = new StringBuilder("Pila de jugadores:\n");
-            imprimirJugadoresRecursivo(sb, top);
-            JOptionPane.showMessageDialog(null, sb.toString());
-        }
+        JOptionPane.showMessageDialog(null, pilaJugadores.imprimirJugadores());
     }
 
-    private static void imprimirJugadoresRecursivo(StringBuilder sb, int index) {
-        if (index < 0) {
-            return;
+    private static void subMenuEliminar() {
+        String[] subOptions = {"Eliminar un jugador", "Salir del juego"};
+        int subOption = JOptionPane.showOptionDialog(
+                null,
+                "Seleccione una opción",
+                "Submenú Eliminar",
+                JOptionPane.DEFAULT_OPTION,
+                JOptionPane.INFORMATION_MESSAGE,
+                null,
+                subOptions,
+                subOptions[0]
+        );
+
+        switch (subOption) {
+            case 0:
+                eliminarJugador();
+                break;
+            case 1:
+                JOptionPane.showMessageDialog(null, "Jugador seleccionado para salir del juego.");
+                // Aquí puedes implementar la lógica para seleccionar un jugador que sale del juego sin cerrar el programa
+                break;
+            default:
+                JOptionPane.showMessageDialog(null, "Opción no válida");
+                break;
         }
-        sb.append(top - index + 1).append(". ").append(jugadores[index]).append("\n");
-        imprimirJugadoresRecursivo(sb, index - 1);
     }
 
     private static void eliminarJugador() {
-        if (top == -1) {
+        if (pilaJugadores.obtenerTop() == -1) {
             JOptionPane.showMessageDialog(null, "No hay jugadores para eliminar.");
         } else {
+            String[] jugadores = pilaJugadores.obtenerListaJugadores();
             StringBuilder sb = new StringBuilder("Seleccione un jugador para eliminar:\n");
-            for (int i = 0; i <= top; i++) {
+            for (int i = 0; i < jugadores.length; i++) {
                 sb.append(i + 1).append(". ").append(jugadores[i]).append("\n");
             }
             String input = JOptionPane.showInputDialog(sb.toString());
             try {
                 int index = Integer.parseInt(input) - 1;
-                if (index >= 0 && index <= top) {
-                    for (int i = index; i < top; i++) {
-                        jugadores[i] = jugadores[i + 1];
-                    }
-                    jugadores[top--] = null;
+                if (pilaJugadores.eliminarJugador(index)) {
                     JOptionPane.showMessageDialog(null, "Jugador eliminado.");
                 } else {
                     JOptionPane.showMessageDialog(null, "Índice no válido.");
