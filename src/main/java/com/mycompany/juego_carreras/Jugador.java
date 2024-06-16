@@ -1,5 +1,4 @@
 package com.mycompany.juego_carreras;
-
 /**
  *
  * @author jacob
@@ -7,7 +6,7 @@ package com.mycompany.juego_carreras;
 /**
  * Clase que representa a un jugador en la carrera.
  */
-public class Jugador {
+public class Jugador { // aqui se capta la informacion del jugador 
     private String nombre;
     private int posicionActual;
 
@@ -25,7 +24,8 @@ public class Jugador {
      * @return El nombre del jugador.
      */
     public String getNombre() {
-        return nombre;
+//        int a = a + 1;
+        return nombre;    // experimento /////////////////////////////////////
     }
 
     /**

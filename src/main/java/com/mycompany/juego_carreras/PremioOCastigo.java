@@ -1,6 +1,4 @@
-
 package com.mycompany.juego_carreras;
-
 /**
  *
  * @author jacob
@@ -42,7 +40,7 @@ public abstract class PremioOCastigo {
 /**
  * Clase que representa un premio.
  */
-class Premio extends PremioOCastigo {
+class Premio extends PremioOCastigo { ///////////////////////////////////////////////////////////////////////////////
     /**
      * Constructor para crear un nuevo premio.
      * @param valor El valor del premio.
@@ -56,7 +54,7 @@ class Premio extends PremioOCastigo {
 /**
  * Clase que representa un castigo.
  */
-class Castigo extends PremioOCastigo {
+class Castigo extends PremioOCastigo { //////////////////////////////////////////////////////////////////////////////
     /**
      * Constructor para crear un nuevo castigo.
      * @param valor El valor del castigo.
