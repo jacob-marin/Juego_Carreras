@@ -3,54 +3,141 @@ package com.mycompany.juego_carreras;
  *
  * @author jacob
  */
-import java.util.ArrayList;
-import java.util.List;
 /**
- * Clase que representa una cola.
- * @param <T> El tipo de elementos en la cola.
+ * Clase que implementa una cola genérica.
+ *
+ * @param <T> el tipo de elemento que almacena la cola
  */
 public class Cola<T> {
-    private List<T> elementos;
+
+    private NodoC<T> frente;
+    private NodoC<T> ultimo;
 
     /**
-     * Constructor para crear una nueva cola.
+     * Constructor por defecto que inicializa la cola vacía.
      */
     public Cola() {
-        elementos = new ArrayList<>();
+        frente = null;
+        ultimo = null;
     }
 
     /**
-     * Agrega un elemento al final de la cola.
-     * @param elemento El elemento a agregar.
+     * Agrega un elemento a la cola.
+     *
+     * @param elemento el elemento a agregar
      */
-    public void add(T elemento) {
-        elementos.add(elemento);
-    }
-
-    /**
-     * Elimina y devuelve el elemento al frente de la cola.
-     * @return El elemento al frente de la cola.
-     */
-    public T poll() { // permite recuperar o eliminar el elemento superir(cabeza) de una cola
-        if (elementos.isEmpty()) { //IsEmpty devuelve una valor booleano, devuelve 1 si el campo esta vacio, de lo contrario devuelve un 0.
-            throw new IllegalStateException("La cola está vacía");
+    public void agregar(T elemento) {
+        NodoC<T> nuevo = new NodoC<>(elemento);
+        if (frente == null) {
+            frente = nuevo;
+            ultimo = nuevo;
+        } else {
+            ultimo.setAtras(nuevo);
+            ultimo = nuevo;
         }
-        return elementos.remove(0); //elimina el elemento seleccionado 
     }
 
     /**
-     * Devuelve el número de elementos en la cola.
-     * @return El número de elementos en la cola.
+     * Elimina y devuelve el primer elemento en la cola.
+     *
+     * @return el primer elemento en la cola
      */
-    public int size() { //contar el número de elementos de un array
-        return elementos.size();
+    public T eliminar() {
+        if (frente != null) {
+            T elemento = frente.getDato();
+            frente = frente.getAtras();
+            if (frente == null) {
+                ultimo = null;
+            }
+            return elemento;
+        } else {
+            return null;
+        }
     }
 
     /**
-     * Devuelve una lista de todos los elementos en la cola.
-     * @return Una lista de todos los elementos en la cola.
+     * Verifica si la cola está vacía.
+     *
+     * @return true si la cola está vacía, false en caso contrario
      */
-    public List<T> getElementos() {
-        return new ArrayList<>(elementos);
+    public boolean estaVacia() {
+        return frente == null;
+    }
+
+    /**
+     * Obtiene el tamaño de la cola.
+     *
+     * @return el tamaño de la cola
+     */
+    public int verTamaño() {
+        int tamaño = 0;
+        NodoC<T> aux = frente;
+        while (aux != null) {
+            tamaño++;
+            aux = aux.getAtras();
+        }
+        return tamaño;
+    }
+
+    /**
+     * Muestra los elementos en la cola.
+     *
+     * @return una cadena con los elementos de la cola
+     */
+    public String mostrarElementos() {
+        StringBuilder elementos = new StringBuilder();
+        NodoC<T> aux = frente;
+        while (aux != null) {
+            elementos.append(aux.getDato().toString()).append("\n");
+            aux = aux.getAtras();
+        }
+        return elementos.toString();
+    }
+}
+
+/**
+ * Clase que representa un nodo en la cola.
+ *
+ * @param <T> el tipo de elemento que almacena el nodo
+ */
+class NodoC<T> {
+    private T dato;
+    private NodoC<T> atras;
+
+    /**
+     * Constructor que inicializa el nodo con un dato.
+     *
+     * @param dato el dato a almacenar en el nodo
+     */
+    public NodoC(T dato) {
+        this.dato = dato;
+        this.atras = null;
+    }
+
+    /**
+     * Obtiene el dato almacenado en el nodo.
+     *
+     * @return el dato almacenado en el nodo
+     */
+    public T getDato() {
+        return dato;
+    }
+
+    /**
+     * Obtiene el nodo siguiente.
+     *
+     * @return el nodo siguiente
+     */
+    public NodoC<T> getAtras() {
+        return atras;
+    }
+
+    /**
+     * Establece el nodo siguiente.
+     *
+     * @param atras el nodo siguiente
+     */
+    public void setAtras(NodoC<T> atras) {
+        this.atras = atras;
     }
 }

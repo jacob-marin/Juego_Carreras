@@ -3,55 +3,124 @@ package com.mycompany.juego_carreras;
  *
  * @author jacob
  */
-import java.util.ArrayList;
-import java.util.List;
+import javax.swing.JOptionPane;
 
 /**
- * Clase que representa una pila.
- * @param <T> El tipo de elementos en la pila.
+ * Clase que implementa una pila genérica.
+ *
+ * @param <T> el tipo de elemento que almacena la pila
  */
 public class Pila<T> {
-    private List<T> elementos;
+
+    private Nodo<T> cima;
 
     /**
-     * Constructor para crear una nueva pila.
+     * Constructor por defecto que inicializa la pila vacía.
      */
     public Pila() {
-        elementos = new ArrayList<>();
+        this.cima = null;
+    }
+
+    /**
+     * Verifica si la pila está vacía.
+     *
+     * @return true si la pila está vacía, false en caso contrario
+     */
+    public boolean esVacia() {
+        return cima == null;
     }
 
     /**
      * Agrega un elemento a la pila.
-     * @param elemento El elemento a agregar.
+     *
+     * @param elemento el elemento a agregar
      */
-    public void push(T elemento) {
-        elementos.add(elemento); //Añade elementos...
+    public void agregar(T elemento) {
+        Nodo<T> nuevo = new Nodo<>(elemento);
+        if (esVacia()) {
+            cima = nuevo;
+        } else {
+            nuevo.setSiguiente(cima);
+            cima = nuevo;
+        }
     }
 
     /**
      * Elimina y devuelve el elemento en la cima de la pila.
-     * @return El elemento en la cima de la pila.
+     *
+     * @return el elemento en la cima de la pila
      */
-    public T pop() {
-        if (elementos.isEmpty()) { //IsEmpty devuelve una valor booleano, devuelve 1 si el campo esta vacio, de lo contrario devuelve un 0.
-            throw new IllegalStateException("La pila está vacía");
+    public T eliminar() {
+        if (!esVacia()) {
+            T elemento = cima.getElemento();
+            cima = cima.getSiguiente();
+            return elemento;
+        } else {
+            JOptionPane.showMessageDialog(null, "No se puede extraer, pila vacía");
+            return null;
         }
-        return elementos.remove(elementos.size() - 1);
     }
 
     /**
-     * Devuelve el número de elementos en la pila.
-     * @return El número de elementos en la pila.
+     * Muestra los elementos en la pila.
+     *
+     * @return una cadena con los elementos de la pila
      */
-    public int size() {
-        return elementos.size();
+    public String mostrarElementos() {
+        StringBuilder elementos = new StringBuilder();
+        Nodo<T> aux = cima;
+        while (aux != null) {
+            elementos.append(aux.getElemento().toString()).append("\n");
+            aux = aux.getSiguiente();
+        }
+        return elementos.toString();
+    }
+}
+
+/**
+ * Clase que representa un nodo en la pila.
+ *
+ * @param <T> el tipo de elemento que almacena el nodo
+ */
+class Nodo<T> {
+
+    private T elemento;
+    private Nodo<T> siguiente;
+
+    /**
+     * Constructor que inicializa el nodo con un elemento.
+     *
+     * @param elemento el elemento a almacenar en el nodo
+     */
+    public Nodo(T elemento) {
+        this.elemento = elemento;
+        this.siguiente = null;
     }
 
     /**
-     * Devuelve una lista de todos los elementos en la pila.
-     * @return Una lista de todos los elementos en la pila.
+     * Obtiene el elemento almacenado en el nodo.
+     *
+     * @return el elemento almacenado en el nodo
      */
-    public List<T> getElementos() {
-        return new ArrayList<>(elementos);
+    public T getElemento() {
+        return elemento;
+    }
+
+    /**
+     * Obtiene el nodo siguiente.
+     *
+     * @return el nodo siguiente
+     */
+    public Nodo<T> getSiguiente() {
+        return siguiente;
+    }
+
+    /**
+     * Establece el nodo siguiente.
+     *
+     * @param siguiente el nodo siguiente
+     */
+    public void setSiguiente(Nodo<T> siguiente) {
+        this.siguiente = siguiente;
     }
 }
