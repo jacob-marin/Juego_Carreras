@@ -11,6 +11,7 @@ import javax.swing.JTextArea;
 
 /**
  * Clase que gestiona la carrera, incluyendo jugadores, premios y castigos.
+ * Proporciona métodos para agregar jugadores, listar jugadores, jugar turnos y mostrar premios/castigos pendientes.
  */
 public class Carrera {
 
