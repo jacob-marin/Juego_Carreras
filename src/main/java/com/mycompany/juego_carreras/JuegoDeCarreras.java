@@ -9,8 +9,15 @@ import java.util.List;
 
 /**
  * Clase principal que ejecuta el juego de carreras.
+ * Proporciona un menú para agregar jugadores, listar jugadores, jugar, ver resultados, ver premios/castigos, mostrar ayuda y salir.
  */
 public class JuegoDeCarreras {
+    
+    /**
+     * Método principal que inicia el juego de carreras y muestra el menú.
+     * 
+     * @param args los argumentos de la línea de comandos
+     */
     public static void main(String[] args) {
         Carrera carrera = new Carrera();
         String[] opcionesMenu = {"Agregar jugador", "Listar jugadores", "Jugar", "Ver resultados", "Ver premios/castigos", "Ayuda", "Salir"};
